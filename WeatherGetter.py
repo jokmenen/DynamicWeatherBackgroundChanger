@@ -37,6 +37,7 @@ def getWeatherJSON(): #TODO: add way to customize city
 
     r = requests.get('http://api.openweathermap.org/data/2.5/weather?q=Tilburg,nl&APPID=5bcb315696e72e6cee087d0df618811f')
     weer = r.json()
+
     return weer
 
     #Test code: used to not overload the API
@@ -48,9 +49,6 @@ def getWeatherJSON(): #TODO: add way to customize city
 
 
 def getWeatherTypeFromID(id):
-
-
-
     # Find first number in condition code,
     firstnum = int(str(id)[0]) #sorry to the reader for the shitshow of conversions
 
@@ -68,7 +66,7 @@ def getWeatherTypeFromID(id):
     if firstnum in exceptions:
         if id == 800:
             weathercond = WEATHERTYPES[800]
-        elif str(id)[:2] == 80:
+        elif int(str(id)[:2]) == 80:
             weathercond = WEATHERTYPES[80]
         else:
             #TODO: Add 9 and 90

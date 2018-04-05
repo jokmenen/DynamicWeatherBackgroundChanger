@@ -3,7 +3,7 @@ import BackgroundChanger,WeatherGetter,WallpaperDownloader,WallpaperSelector
 import time, os
 
 
-
+#todo Unit tests boi
 
 
 
@@ -17,8 +17,9 @@ def startProgram():
     print("Starting WallChanger! Press ctrl+c, or close this window to quit.")
     while True:
         os.chdir(WORKINGDIR)
-        print("Wallpaper number ",numofWalls, "@ ",time.strftime("%H:%M:%S", time.localtime(time.time())))
-        WallpaperSelector.selectWallpaper(WORKINGDIR,WALLPAPERFOLDERNAME)
+
+        print("Wallpaper number ",numofWalls, "@ ",time.strftime("%H:%M:%S", time.localtime(time.time())),"==>",WallpaperSelector.selectWallpaper(WORKINGDIR, WALLPAPERFOLDERNAME))
+
         numofWalls += 1
 
         time.sleep(INTERVAL*60)

@@ -12,6 +12,7 @@ def selectWallpaper(cwd,wpfoldername):
         randwall = os.listdir()[random.randint(0,len(os.listdir())-1)]
         randwallfullpath = os.path.join(os.getcwd(),randwall)
         BackgroundChanger.setWallpaper(randwallfullpath)
+        return currentWeather
     else:
         print("Wallpapers File Does Not Yet Exist! Want to download some wallpapers?")
         while not( input == "n" or input == "y"):
