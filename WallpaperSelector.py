@@ -1,10 +1,13 @@
-import os, random
-import WallpaperDownloader, WeatherGetter, BackgroundChanger
+import os
+import random
+
+import BackgroundChanger
+import WallpaperDownloader
+import WeatherGetter
 
 
-
+# Set a wallpaper based on the current weather
 def selectWallpaper(cwd,wpfoldername):
-    WORKINGDIR = cwd
     WALLPAPERFOLDERNAME = wpfoldername
     if os.path.exists(WALLPAPERFOLDERNAME):
         currentWeather = WeatherGetter.getWeather()
@@ -15,6 +18,7 @@ def selectWallpaper(cwd,wpfoldername):
         return currentWeather
     else:
         print("Wallpapers File Does Not Yet Exist! Want to download some wallpapers?")
+        input = ""
         while not( input == "n" or input == "y"):
             input = input("Download wallpapers? (y/n):    ")
             if input == "y":

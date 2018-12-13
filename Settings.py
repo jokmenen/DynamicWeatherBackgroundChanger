@@ -1,5 +1,8 @@
-import os, json
+import json
+import os
 
+
+# Retrieve settings from settings JSON
 def getSettings():
 
     settingsDict = {
@@ -21,12 +24,13 @@ def getSettings():
 
     return settingsDict
 
+
+# Change setting in settings JSON
 def changeSettings(key,val):
     cursettings = getSettings()
     cursettings[key] = val
     with open("settings.json","w+") as fp:
         fp.write(json.dumps(cursettings))
-
 
 
 if __name__ == "__main__":

@@ -3,7 +3,9 @@
 # like clear, rain etc. and won't go into specifics.
 # Therefore I will only check the first number of the code (with exception of 8 and 9)
 
-import Settings,time
+import time
+
+import Settings
 
 WEATHERTYPES = {  # Could also maybe use just the weather names to search for wallpapers in advanced versions
     #Note: use + to link words (for in the url e.g. clear+skies)
@@ -16,16 +18,14 @@ WEATHERTYPES = {  # Could also maybe use just the weather names to search for wa
     80: "Clouds",  # I will probably write an exception for this meh #edit: see comment below
     90: "Tornado",  # used to be extreme
     9: "Weather"  #used to be additional which is vague as fuck. Got no results for breeze or wind so whatever.
-    # check for length of string of these numbers: because 90x is Extreme but 9XX is additional etc. Fucking OWM
+    # Make sure to check for length of string of these numbers: because 90x is Extreme but 9XX is additional etc.
 }
+
 
 def getWeather():
     weatherJSON = getWeatherJSON()
     currentWeatherDict = weatherJSON["weather"]
-    # WTF sometimes this (v) might return more than one weather specification??? Will just use 1st.
-    #if len(currentWeatherDict) > 1: nvm the ^ comment, it always does this for some reason...
     currentWeatherDict = currentWeatherDict[0]
-
     weatherstr = getWeatherTypeFromID(currentWeatherDict["id"])
     return weatherstr
 
@@ -42,7 +42,7 @@ def getWeatherJSON(retry=0):
     weer = r.json()
     if not("weather" in weer.keys()):
         if retry<3:
-            retry+=1
+            retry += 1
             print("Error, no weather data retrieved. Retrying in {} seconds...".format((retry)*5))
             time.sleep((retry)*5)
             getWeatherJSON(retry)
@@ -62,18 +62,13 @@ def getWeatherJSON(retry=0):
 
 def getWeatherTypeFromID(id):
     # Find first number in condition code,
-    firstnum = int(str(id)[0]) #sorry to the reader for the shitshow of conversions
-
-
+    firstnum = int(str(id)[0])  # TODO Tidy conversions if possible
 
     #check if this is part of one of the codes with multiple conditions under one number
-
-    #TODO: find a way to do this smart with regex 'n shit. Or not. Im not a police officer.
-    #form: {exception number, 'Regex code to check
-    #exceptions = {"8",800}
+    # TODO: find a way to do this smart with regex
     exceptions = [8,9] #lazy solution lol
 
-    weathercond = "404" #returns funny 404 wallpapers haha so funny good on you Jokmenen for making this.
+    weathercond = "404"  #returns funny 404 wallpapers haha
 
     if firstnum in exceptions:
         if id == 800:
@@ -92,5 +87,3 @@ def getWeatherTypeFromID(id):
 
 if __name__ == "__main__":
     print(getWeather())
-# IDEE TIJD:
-# Maak ook een scriptje die automatisch walls download voor de weertypes voor als je daar zelf te lui voor bent

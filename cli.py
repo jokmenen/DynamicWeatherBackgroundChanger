@@ -1,12 +1,14 @@
-import BackgroundChanger,WeatherGetter,WallpaperDownloader,WallpaperSelector,Settings
+import os
+import time
 
-import time, os
+import BackgroundChanger
+import Settings
+import WallpaperDownloader
+import WallpaperSelector
+import WeatherGetter
 
 
-#todo Unit tests boi
-
-
-
+# TODO Unit tests
 def startProgram():
     currentSettings = Settings.getSettings()
     WALLPAPERFOLDERNAME = "Wallpapers"
@@ -20,21 +22,23 @@ def startProgram():
     while True:
         os.chdir(WORKINGDIR)
 
-        print("Wallpaper number ",numofWalls, "@ ",time.strftime("%H:%M:%S", time.localtime(time.time())),"==>",
-              WallpaperSelector.selectWallpaper(WORKINGDIR, WALLPAPERFOLDERNAME),"in",CITY) #TODO Format?
+        print("Wallpaper number ", numofWalls, "@ ", time.strftime("%H:%M:%S", time.localtime(time.time())), "==>",
+              WallpaperSelector.selectWallpaper(WORKINGDIR, WALLPAPERFOLDERNAME), "in", CITY)  # TODO Format?
 
         numofWalls += 1
 
         time.sleep(INTERVAL*60)
+
+
 if __name__ == "__main__":
-    while True:
-        time.sleep(1)
+    while True:  # Repeat command line interface until program stops
+        time.sleep(1)  # To prevent crashing beause of looping too fast
         inp = input("S: Start Wallchanger | D: Download Wallpapers | C: Change Settings:  ")
         if inp in "sS":
             startProgram()
         elif inp in "dD":
             WallpaperDownloader.downloadWallpapers(WORKINGDIR,WALLPAPERFOLDERNAME)
-        elif inp in "cC":
+        elif inp in "cC":  # First print current settings, next ask if user wants to change a setting.
             print("Current Settings:")
             settings = Settings.getSettings()
             settingnum = {}
@@ -57,8 +61,7 @@ if __name__ == "__main__":
             settingname = settingnum[int(settingtochange)]
             changedval = input("Please insert the value you want to change {} into:".format(settingname))
 
-
-
+            # Check whether the original setting was a number, and if so make sure a number is entered aswell, else loop
             if  isinstance(settings[settingname], int) or str(settings[settingname]).isnumeric():
                 while not( str(changedval).isnumeric() )or not( isinstance(settings[settingname], int)):
                     if changedval == "":
@@ -71,6 +74,7 @@ if __name__ == "__main__":
                     Settings.changeSettings(settingname, int(changedval))
                     print("{} changed to: {}".format(settingname, changedval))
 
+            # If not a number, check if it is a path. (Feels a bit hacky so I might change this up later)
             elif os.path.exists(os.path.dirname(settings[settingname])):
                 while not os.path.exists(os.path.dirname(changedval)):
                     if changedval == "":
